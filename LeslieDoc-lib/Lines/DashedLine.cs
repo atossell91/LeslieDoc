@@ -30,6 +30,7 @@ namespace LeslieDoc {
                 cursor.X = cursor.X + xLen;
                 cursor.Y = cursor.Y + yLen;
                 XPoint l2 = new XPoint(cursor.X, cursor.Y);
+                
                 gfx.DrawLine(pen, l1, l2);
 
                 cursor.X = cursor.X + xSep;
