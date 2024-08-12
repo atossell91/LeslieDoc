@@ -8,13 +8,28 @@ namespace LeslieDoc {
     {
         private delegate IEnumerable<XRect> RectangleGenerator(int upto, XPoint startLoc, XSize sz);
 
-
-        public static void DrawColumn(XGraphics gfx, int numRows, XSize size, XPoint location, CellStyleInfo styleInfo) {
+        public static PositionInfo DrawColumn(XGraphics gfx, int numRows, XSize size, XPoint location, CellStyleInfo styleInfo) {
             drawBlock(gfx, numRows, size, location, styleInfo, rectColGenerator);
+
+            return new PositionInfo
+            {
+                Top = location.Y,
+                Bottom = location.Y + size.Height,
+                Left = location.X,
+                Right = location.X + size.Width
+            };
         }
 
-        public static void DrawRow(XGraphics gfx, int numRows, XSize size, XPoint location, CellStyleInfo styleInfo) {
+        public static PositionInfo DrawRow(XGraphics gfx, int numRows, XSize size, XPoint location, CellStyleInfo styleInfo) {
             drawBlock(gfx, numRows, size, location, styleInfo, rectRowGenerator);
+
+            return new PositionInfo
+            {
+                Top = location.Y,
+                Bottom = location.Y + size.Height,
+                Left = location.X,
+                Right = location.X + size.Width
+            };
         }
 
         private static IEnumerable<XRect> rectColGenerator(int upto, XPoint startLoc, XSize sz) {

@@ -10,6 +10,7 @@ class Program {
         Console.WriteLine("Hello, World!");
         PdfDocument doc = new PdfDocument();
         var page = doc.AddPage();
+        page.Size = PdfSharp.PageSize.Legal;
         var gfx = XGraphics.FromPdfPage(page);
 
         var style = new CellStyleInfo() {
@@ -18,13 +19,32 @@ class Program {
             BorderWidth = 0.2,
         };
 
-        Grid.DrawColumn(gfx, 5, new XSize(30, 100), new XPoint(20, 50), style);
-        
-        Grid.DrawRow(gfx, 5, new XSize(100, 30), new XPoint(20, 160), style);
+        var pos = Grid.DrawColumn(gfx, 5, new XSize(30, 100), new XPoint(20, 50), style);
 
-        DashedLine line = new DashedLine();
-        XPen pen = new XPen(style.BorderColour, 2);
-        line.DrawLine(gfx, pen, new XPoint(60, 80), new XPoint(25, 60));
-        doc.Save("/home/ant/Programming/LeslieDoc/test.pdf");
+        Cell myCell = new Cell();
+        myCell.Location = new XPoint(20, 20);
+        myCell.Size = new XSize(15, 6);
+        myCell.BackgroundColor = XBrushes.HotPink.Color;
+        
+        myCell.LeftBorder = LeslieDoc.Lines.LineStyles.DashedLine;
+        myCell.RightBorder = LeslieDoc.Lines.LineStyles.DashedLine;
+        myCell.TopBorder = LeslieDoc.Lines.LineStyles.StraightLine;
+        myCell.BottomBorder = LeslieDoc.Lines.LineStyles.StraightLine;
+
+        for (int y = 0; y < 4; ++y)
+        {
+            for (int x = 0; x < 10; ++x)
+            {
+                myCell.Location = new XPoint(
+                    myCell.Size.Width * x,
+                    myCell.Size.Height * y
+                    );
+
+                myCell.Draw(gfx);
+            }
+        }
+        myCell.Draw(gfx);
+
+        doc.Save("./test.pdf");
     }
 }
