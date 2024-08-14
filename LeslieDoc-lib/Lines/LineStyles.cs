@@ -17,9 +17,7 @@ namespace LeslieDoc.Lines
             var pen = new XPen(color);
             pen.Width = BaseWidth;
 
-            gfx.DrawLine(pen,
-                LeslieDoc.PointMillisToPDF(aPos),
-                LeslieDoc.PointMillisToPDF(bPos));
+            gfx.DrawLine(pen, aPos, bPos);
         }
 
         public static void DashedLine(XGraphics gfx, XPoint aPos, XPoint bPos, XColor color)
@@ -28,9 +26,7 @@ namespace LeslieDoc.Lines
             pen.Width = BaseWidth;
             pen.DashStyle = XDashStyle.Dash;
 
-            gfx.DrawLine(pen,
-                LeslieDoc.PointMillisToPDF(aPos),
-                LeslieDoc.PointMillisToPDF(bPos));
+            gfx.DrawLine(pen, aPos, bPos);
         }
 
         public static void DoubleLine(XGraphics gfx, XPoint aPos, XPoint bPos, XColor color)
@@ -38,9 +34,7 @@ namespace LeslieDoc.Lines
             var pen = new XPen(color);
             pen.Width = BaseWidth;
 
-            gfx.DrawLine(pen,
-                LeslieDoc.PointMillisToPDF(aPos),
-                LeslieDoc.PointMillisToPDF(bPos));
+            gfx.DrawLine(pen, aPos, bPos);
             throw new Exceptions.NooneLikesYouException("Only a single line has been drawn. Get over it!");
         }
     }
