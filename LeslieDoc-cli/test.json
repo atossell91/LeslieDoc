@@ -1,18 +1,73 @@
 
 {
-    "dims": {
-        "page_width": "100mm",
-        "page_height": "100mm"
+    "default_values": {
+        "cell_type": "undrawn",
+        "cell_height": "10mm"
     },
-    "right_margin": {
-        "top": "0mm",
-        "bottom": "1000mm",
-        "left": "205.9mm",
-        "right": "1000mm"
+    "canada_banner": {
+        "cell_type": "image",
+        "left": "5mm",
+        "top": "5mm",
+        "width": "30mm",
+        "height": "default_values.cell_height",
+        "image_path": "./img.png"
     },
-    "lorraine_cell": {
-        "type": "basic",
-        "top": "top_margin",
-        "left": "left_margin"
+    "date_header": {
+        "cell_type": "basic_text",
+        "left": "canada_banner.left",
+        "top": "canada_banner.bottom",
+        "width": "20mm",
+        "height": "default_values.cell_height",
+        "text": "Date"
+    },
+    "shift_header": {
+        "cell_type": "basic_text",
+        "left": "date_header.right",
+        "top": "date_header.top",
+        "width": "20mm",
+        "height": "date_header.height",
+        "text": "Shift"
+    },
+    "activity_header": {
+        "cell_type": "basic_text",
+        "left": "date_header.right",
+        "top": "date_header.top",
+        "width": "20mm",
+        "height": "date_header.height",
+        "text": "Shift"
+    },
+    "aesthetic_divider": {
+        "cell_type": "basic_text",
+        "top": "date_header.bottom",
+        "left": "date_header.left",
+        "right": "activity_header.right",
+        "height": "default_values.cell_height",
+        "text": "A nice divider",
+        "text_colour": "FFFFFF",
+        "background_colour": "000000"
+    },
+    "data_grid": {
+        "cell_type": "vertical_repeat",
+        "repeat_count": 5,
+        "cells": {
+            "date": {
+                "top": "date_header.bottom",
+                "left": "date_header.left",
+                "width": "date_header.width",
+                "height": "default_values.cell_height"
+            },
+            "shift": {
+                "top": "shift_header.bottom",
+                "left": "shift_header.left",
+                "width": "shift_header.width",
+                "height": "default_values.cell_height"
+            },
+            "activity": {
+                "top": "activity_header.bottom",
+                "left": "activity_header.left",
+                "width": "activity_header.width",
+                "height": "default_values.cell_height"
+            }
+        }
     }
 }

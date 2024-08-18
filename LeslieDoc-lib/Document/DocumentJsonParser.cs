@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -151,6 +152,35 @@ namespace LeslieDoc {
                     return InferValue()
             */
             throw new NotImplementedException();
+        }
+
+        public Dictionary<string, ICellFactory> CellFactories { get; set; }
+
+        public DocumentJsonParser()
+        {
+            CellFactories = new Dictionary<string, ICellFactory>
+            {
+                { "undrawn", new UndrawnCellFactory() },
+                { "basic_text", new BasicCellFactory() },
+                { "image", new ImageCellFactory() }
+            };
+        }
+
+        public void ParseProperty(string name, JsonElement element) {
+            JsonElement cellTypeElem;
+            string cellType = String.Empty;
+            if (element.TryGetProperty("cell_type", out cellTypeElem)) {
+                //  What if this fails?
+                cellType = cellTypeElem.GetString();
+                ICell cell = CellFactories[cellType].CreateCell(element);
+            }
+        }
+
+        public void InterpretFile(JsonDocument doc) {
+            JsonElement rootElem = doc.RootElement;
+            foreach (var elem in rootElem.EnumerateObject()) {
+                ParseProperty(elem.Name, elem.Value);
+            }
         }
     }
 }
