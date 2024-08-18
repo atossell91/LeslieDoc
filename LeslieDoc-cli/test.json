@@ -1,0 +1,18 @@
+
+{
+    "dims": {
+        "page_width": "100mm",
+        "page_height": "100mm"
+    },
+    "right_margin": {
+        "top": "0mm",
+        "bottom": "1000mm",
+        "left": "205.9mm",
+        "right": "1000mm"
+    },
+    "lorraine_cell": {
+        "type": "basic",
+        "top": "top_margin",
+        "left": "left_margin"
+    }
+}

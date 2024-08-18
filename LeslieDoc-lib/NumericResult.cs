@@ -1,6 +1,11 @@
 namespace LeslieDoc {
+    public enum Result {
+        Success,
+        Fail
+    }
+
     public class NumericResult {
-        public bool Result { get; set; }
+        public Result Result { get; set; }
         public double Value { get; set; }
     }
 }

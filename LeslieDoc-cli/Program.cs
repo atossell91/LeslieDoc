@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Linq.Expressions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using LeslieDoc;
 using LeslieDoc.Lines;
 using PdfSharp.Drawing;
@@ -29,9 +33,12 @@ class Program {
     public static void Main(String[] args) {
         // See https://aka.ms/new-console-template for more information
         Console.WriteLine("Hello, World!");
+        
         PdfDocument doc = new PdfDocument();
         var page = doc.AddPage();
         page.Size = PdfSharp.PageSize.Legal;
+        page.Width = new XUnit(100, XGraphicsUnit.Millimeter);
+        page.Height = new XUnit(100, XGraphicsUnit.Millimeter);
         var gfx = XGraphics.FromPdfPage(page, XGraphicsUnit.Millimeter);
 
         double cellHeight = 11;
