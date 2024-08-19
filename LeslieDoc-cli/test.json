@@ -47,8 +47,8 @@
         "background_colour": "000000"
     },
     "data_grid": {
-        "cell_type": "vertical_repeat",
         "repeat_count": 5,
+        "direction": "vertical",
         "cells": {
             "date": {
                 "top": "date_header.bottom",

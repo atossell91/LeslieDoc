@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq.Expressions;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization.Metadata;
 using LeslieDoc;
 using LeslieDoc.Lines;
 using PdfSharp.Drawing;
@@ -16,6 +18,13 @@ class Program {
 
         string jsonStr = File.ReadAllText("./test.json");
         JsonDocument doc = JsonDocument.Parse(jsonStr);
-        DocumentJsonParser.InterpretFile(doc);
+        JsonElement rootElem = doc.RootElement;
+
+        CellFactoryCollection collection = new CellFactoryCollection {
+                { "undrawn", new UndrawnCellFactory() },
+                { "basic_text", new BasicCellFactory() },
+                { "image", new ImageCellFactory() }
+        };
+        //DocumentJsonParser.InterpretElement(rootElem, collection);
     }
 }

@@ -154,32 +154,51 @@ namespace LeslieDoc {
             throw new NotImplementedException();
         }
 
-        public Dictionary<string, ICellFactory> CellFactories { get; set; }
-
-        public DocumentJsonParser()
-        {
-            CellFactories = new Dictionary<string, ICellFactory>
-            {
-                { "undrawn", new UndrawnCellFactory() },
-                { "basic_text", new BasicCellFactory() },
-                { "image", new ImageCellFactory() }
-            };
+        public static CellCollection ParseCellCollection(string name, JsonElement element,
+        CellFactoryCollection factories) {
+            throw new NotImplementedException();
+        }
+        public static ICell ParseSingleCell(string name, JsonElement element,
+        CellFactoryCollection factories) {
+            throw new NotImplementedException();
         }
 
-        public void ParseProperty(string name, JsonElement element) {
-            JsonElement cellTypeElem;
-            string cellType = String.Empty;
-            if (element.TryGetProperty("cell_type", out cellTypeElem)) {
-                //  What if this fails?
-                cellType = cellTypeElem.GetString();
-                ICell cell = CellFactories[cellType].CreateCell(element);
+        public static string GetElementStringProperty(JsonElement element, string name) {
+            JsonElement innerElem;
+            if (element.TryGetProperty(name, out innerElem)) {
+                return innerElem.GetString();
+            }
+            else {
+                return String.Empty;
             }
         }
 
-        public void InterpretFile(JsonDocument doc) {
-            JsonElement rootElem = doc.RootElement;
-            foreach (var elem in rootElem.EnumerateObject()) {
-                ParseProperty(elem.Name, elem.Value);
+        public static void InterpretElement(JsonElement rootElem, CellFactoryCollection factories) {
+            
+            foreach (var property in rootElem.EnumerateObject()) {
+                string propertName = property.Name;
+                JsonElement elem = property.Value;
+                JsonElement tempElem;
+
+                if (elem.TryGetProperty("repeat_count", out tempElem)) {
+                     int repeatCount = tempElem.GetInt32();
+
+                     JsonElement dirProperty;
+                     string direction = string.Empty;
+                     if (elem.TryGetProperty("direction", out dirProperty)) {
+                        direction = dirProperty.GetString();
+                     }
+                     else {
+                        throw new MissingJsonPropertyException(propertName, "direction");
+                     }
+
+                     // Parse and repeat the remaining json elements (they're just cells now)
+                     //  See parse collection function (above)
+                }
+                else if (elem.TryGetProperty("cell_type", out tempElem)) {
+                    // Parse the json element - It's a cell
+                    //  See parse single cell function (above)
+                }
             }
         }
     }
