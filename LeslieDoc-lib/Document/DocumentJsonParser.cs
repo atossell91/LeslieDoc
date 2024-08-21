@@ -173,31 +173,53 @@ namespace LeslieDoc {
             }
         }
 
-        public static void InterpretElement(JsonElement rootElem, CellFactoryCollection factories) {
-            
-            foreach (var property in rootElem.EnumerateObject()) {
-                string propertName = property.Name;
-                JsonElement elem = property.Value;
-                JsonElement tempElem;
+        public static bool TryExtractString(JsonElement element, string key, out string value) {
+            JsonElement tempElement;
+            value = null;
+            if (element.TryGetProperty(key, out tempElement)) {
+                value = tempElement.GetRawText();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
-                if (elem.TryGetProperty("repeat_count", out tempElem)) {
-                     int repeatCount = tempElem.GetInt32();
-
-                     JsonElement dirProperty;
-                     string direction = string.Empty;
-                     if (elem.TryGetProperty("direction", out dirProperty)) {
-                        direction = dirProperty.GetString();
-                     }
-                     else {
-                        throw new MissingJsonPropertyException(propertName, "direction");
-                     }
-
-                     // Parse and repeat the remaining json elements (they're just cells now)
-                     //  See parse collection function (above)
+        public static bool TryExtractInt(JsonElement element, string key, out int value) {
+            JsonElement tempElement;
+            value = 0;
+            if (element.TryGetProperty(key, out tempElement)) {
+                int tempInt;
+                if (tempElement.TryGetInt32(out tempInt)) {
+                    value = tempInt;
+                    return true;
                 }
-                else if (elem.TryGetProperty("cell_type", out tempElem)) {
-                    // Parse the json element - It's a cell
-                    //  See parse single cell function (above)
+            }
+
+            return false;
+        }
+
+        public static Package Emily(JsonElement element, CellFactoryCollection factories) {
+            Package p = new Package();
+            ICell c = p.CellGroups["outerGroup"][0];
+            foreach (JsonProperty jsonProperty in element.EnumerateObject()) {
+                string name = jsonProperty.Name;
+                JsonElement currentElement = jsonProperty.Value;
+                int repeats;
+                if (TryExtractInt(currentElement, "num_repeats", out repeats)) {
+                    JsonElement subElement;
+                    if (currentElement.TryGetProperty("cells", out subElement)) {
+                        Package pkg = Emily(subElement, factories);
+                        p.Cells.ConcatCollection(pkg.Cells);
+                        
+                    }
+                }
+                else {
+                    string cellType;
+                    if (TryExtractString(currentElement, "cell_type", out cellType)) {
+                        ICell cell = factories[cellType].CreateCell(currentElement);
+                        p.Cells.Add(name, cell);
+                    }
                 }
             }
         }

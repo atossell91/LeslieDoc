@@ -19,5 +19,11 @@ namespace LeslieDoc {
         {
             return cellGroups.GetEnumerator();
         }
+
+        public void ConcatCollectionGroup(CellCollectionGroup otherCollectionGroup) {
+            foreach (var cellGroup in otherCollectionGroup.cellGroups) {
+                cellGroups.Add(cellGroup.Key, cellGroup.Value);
+            }
+        }
     }
 }

@@ -15,9 +15,19 @@ namespace LeslieDoc {
             set { cells[key] = value; }
         }
 
+        public void Add(string key, ICell cell) {
+            cells.Add(key, cell);
+        }
+
         public IEnumerator GetEnumerator()
         {
             return cells.GetEnumerator();
+        }
+
+        public void ConcatCollection(CellCollection otherCollection) {
+            foreach (var cell in otherCollection.cells) {
+                cells.Add(cell.Key, cell.Value);
+            }
         }
     }
 }
