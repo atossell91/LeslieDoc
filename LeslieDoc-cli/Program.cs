@@ -16,6 +16,9 @@ class Program {
         // See https://aka.ms/new-console-template for more information
         Console.WriteLine("Hello, World!");
 
+        Section docs = new Section();
+        ((BorderedCell)docs.Cells["document_date"]).CellContent = new TextElement();
+
         string jsonStr = File.ReadAllText("./test.json");
         JsonDocument doc = JsonDocument.Parse(jsonStr);
         JsonElement rootElem = doc.RootElement;

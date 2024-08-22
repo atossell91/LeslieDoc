@@ -199,8 +199,8 @@ namespace LeslieDoc {
             return false;
         }
 
-        public static Package Emily(JsonElement element, CellFactoryCollection factories) {
-            Package p = new Package();
+        public static Section Emily(JsonElement element, CellFactoryCollection factories) {
+            Section p = new Section();
             ICell c = p.CellGroups["outerGroup"][0];
             foreach (JsonProperty jsonProperty in element.EnumerateObject()) {
                 string name = jsonProperty.Name;
@@ -209,7 +209,7 @@ namespace LeslieDoc {
                 if (TryExtractInt(currentElement, "num_repeats", out repeats)) {
                     JsonElement subElement;
                     if (currentElement.TryGetProperty("cells", out subElement)) {
-                        Package pkg = Emily(subElement, factories);
+                        Section pkg = Emily(subElement, factories);
                         p.Cells.ConcatCollection(pkg.Cells);
                         
                     }
@@ -222,6 +222,7 @@ namespace LeslieDoc {
                     }
                 }
             }
+            throw new NotImplementedException();
         }
     }
 }

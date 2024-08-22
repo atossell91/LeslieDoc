@@ -1,7 +1,7 @@
 using PdfSharp.Drawing;
 
 namespace LeslieDoc {
-    public class BorderedCell : IDrawable
+    public class BorderedCell : ICell, IDrawable
     {
         public PositionInfo PositionInfo { get; set; } = new PositionInfo();
         public IDrawableRelative CellContent { get; set; } = null;
